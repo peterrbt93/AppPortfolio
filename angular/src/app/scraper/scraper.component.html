@@ -1,0 +1,48 @@
+<h2 style="margin-top: 10px;">Article scraper</h2>
+<p>
+    This page works as an interface to a backend application that "scrapes" and stores article titles in a postgres DB.
+    The user can add articles manually by typing in a title and clicking "Add article". The refresh icon is self-explanatory, but the
+    "Scrape articles" button scrapes the first 5 articles from <a href="https://nyheder.tv2.dk/seneste" target="_blank"> Tv2 Nyhedernes Seneste page</a> and adds them to the list.
+    The API retrieves the raw HMTL from the site, parses it and selects the titles.
+</p>
+
+
+<div>
+  <label for="new-article">Article title: </label>
+  <input style="margin-left: 5px;" id="new-article" #articleName (keyup.enter)="add(articleName.value)" />
+
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button style="margin-left: 10px;" type="button" class="add-button" (click)="add(articleName.value);">
+    Add article
+  </button>
+  <button type="button" class="btn btn-secondary" (click)="getArticles();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+  </svg></button>
+  <button style="margin-left: 5px;" type="button" class="add-button" (click)="scrape();">
+    Scrape articles
+  </button>
+
+</div>
+
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let article of articles">
+                <td>{{article.title}}</td>
+                <td>{{this.formatDate(article.date)}}</td>
+                <td><button type="button" (click)="this.deleteArticle(article.id)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+ 

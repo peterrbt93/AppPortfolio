@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  db:
+    container_name: postgres
+    image: postgres:14-alpine
+    # user: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./dbVol:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Welcome
+      - POSTGRES_DB=myDB
+      
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./angular
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:4200"
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    ports:
+      - "8080:80"
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db

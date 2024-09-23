@@ -1,0 +1,14 @@
+numpy
+joblib
+python-multipart
+uvicorn
+fastapi
+SQLAlchemy
+pandas
+typing-extensions==4.1.0
+scipy
+matplotlib
+psycopg2-binary==2.9.5
+requests
+bs4
+
